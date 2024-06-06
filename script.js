@@ -8,23 +8,36 @@ function player (name, sign){
 
 
 const gameBoard = (() =>{
-    const board = [
-        ["A", "B", "C"],
-        ["D", "E", "F"],
-        ["G", "H", "I"]
-    ];
+    let rows = 3
+    let cols = 3
+    let board = []
 
-    return {board}
+    
+    for (let i = 0; i < rows; i++){
+        board[i] = []
+        for (let j = 0; j < cols; j++){
+            board[i][j] = i * cols + j
+        }
+    }
+
+    const addSign = (sign, row, col) => {
+        board[row][col] = sign
+    }
+
+    return {board, addSign}
     
 
 })();
 
-const gameScore = (() => {
-    let addSign = (sign, position) => {
-        gameBoard.slice(position, 0, sign)
-    }
 
-    return {addSign}
-})();
 
-console.log(gameBoard[0][0])
+
+console.log(gameBoard.board)
+gameBoard.addSign("X", 0, 0)
+console.log(gameBoard.board)
+
+const john = player("John", "X")
+const Harry = player("Harry", "O")
+
+console.log(john.getSign())
+console.log(Harry.getSign())

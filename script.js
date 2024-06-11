@@ -20,7 +20,7 @@ const gameBoard = (() =>{
         }
     }
 
-    const addSign = (sign, row, col) => {
+   const addSign = (sign, row, col) => {
         board[row][col] = sign
     }
 
@@ -29,15 +29,27 @@ const gameBoard = (() =>{
 
 })();
 
+const gameController = (() =>{
+    const isX = (sign) => sign == "X"
+    const winCondition = (gameBoard) => {
+        // return gameBoard.board[0].every(isX)
+        let first_col =  gameBoard.board.map(x => x[0])
+        return first_col.every(isX)
+
+    }
+    
+    return {winCondition}
+})();
 
 
 
-console.log(gameBoard.board)
+
+
 gameBoard.addSign("X", 0, 0)
+gameBoard.addSign("X", 0, 1)
+gameBoard.addSign("X", 0, 2)
+gameBoard.addSign("X", 1, 0)
+gameBoard.addSign("X", 2, 0)
+
 console.log(gameBoard.board)
-
-const john = player("John", "X")
-const Harry = player("Harry", "O")
-
-console.log(john.getSign())
-console.log(Harry.getSign())
+console.log(gameController.winCondition(gameBoard))

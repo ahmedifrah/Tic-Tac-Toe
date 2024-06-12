@@ -41,6 +41,23 @@ const gameController = (() =>{
     return {winCondition}
 })();
 
+const getMainDiagonal = (board) =>{
+    let diagonal = [];
+    for (let i = 0; i < board.length; i++) {
+        diagonal.push(board[i][i]);
+    }
+    return diagonal;
+
+}
+
+const getAntiDiagonal = (board) => {
+    let antiDiagonal = []
+    for (let i = 0; i < board.length; i++){
+        antiDiagonal.push(board[i][board.length - 1 - i])
+    }
+}
+
+
 
 
 
@@ -53,3 +70,4 @@ gameBoard.addSign("X", 2, 0)
 
 console.log(gameBoard.board)
 console.log(gameController.winCondition(gameBoard))
+console.log(getMainDiagonal(gameBoard.board))

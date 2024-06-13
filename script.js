@@ -1,12 +1,3 @@
-function player (name, sign){
-    const getName = () => name
-    const getSign = () => sign
-
-
-    return {getName, getSign};
-}
-
-
 const gameBoard = (() =>{
     let rows = 3
     let cols = 3
@@ -29,7 +20,42 @@ const gameBoard = (() =>{
 
 })();
 
-const gameController = (() =>{
+const gameController = ((playerOneName = "Player One", playerTwoName = "Player Two") =>{
+
+
+    const players = [
+        {
+            Name: playerOneName,
+            Token: "X"
+        },
+        {
+            Name: playerTwoName,
+            Token: "O"
+        }
+    ]
+    let activePlayer = players[0]
+
+    let switchPlayerTurn = () =>{
+        activePlayer = players[0] === activePlayer ? players[1] : players[0]
+    }
+
+    let getActivePlayer = () => activePlayer
+
+    let printNewRound = () => {
+        console.log(gameBoard.board)
+        console.log(`${getActivePlayer().Name}'s turn`)
+    }
+
+    let playRound = (row, column) => {
+        console.log(`${getActivePlayer().Name} placed ${getActivePlayer().Token} in ${row} row, ${column} column`)
+        gameBoard.addSign(getActivePlayer().Token, row, column)
+
+        switchPlayerTurn()
+        printNewRound()
+    }
+
+    printNewRound()
+
     const isX = (sign) => sign === "X"
     let haveWinner = false
     const winCondition = (gameBoard) => {
@@ -46,10 +72,11 @@ const gameController = (() =>{
         return haveWinner
     }
 
+    return {playRound, getActivePlayer, winCondition}
+
 
 
     
-    return {winCondition}
 })();
 
 const getMainDiagonal = (board) =>{
@@ -69,39 +96,6 @@ const getAntiDiagonal = (board) => {
     return antiDiagonal
 }
 
-const startGame = () => {
-    let initialSign = prompt("Please select a sign")
-    let player1 = player("John", initialSign)
-    let player2 = initialSign == "X" ? player("Legend", "O") : player("Goofy", "X")
-    const currentPlayers = console.log(`Player1: ${player1.getName()} - ${player1.getSign()} \nPlayer2: ${player2.getName()} - ${player2.getSign()}`) 
-
-    return {player1, currentPlayers}
-
-}
-
-const startRound = (player1) => {
-    let gameCompleted = false
-    while (gameCompleted == false){
-        console.log(`${player1.getName()} Your turn`)
-        let input = prompt(`${player1.getName()} Your Turn`)
-        let signInfo = input.split(",")
-        gameBoard.addSign(signInfo[0], signInfo[1], signInfo[2])
-        if (gameController.winCondition(gameBoard) != true){
-            console.log("Not Won")
-        }else{
-            console.log("Won")
-            gameCompleted = true
-        }
-        console.log(gameBoard.board)
-    }
-}
-
-startGame().currentPlayers
-console.log(gameBoard.board)
-startRound(startGame().player1)
 
 
-
-// console.log(gameBoard.board)
-// console.log(gameController.winCondition(gameBoard))
 

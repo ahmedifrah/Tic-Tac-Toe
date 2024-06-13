@@ -73,21 +73,32 @@ const startGame = () => {
     let initialSign = prompt("Please select a sign")
     let player1 = player("John", initialSign)
     let player2 = initialSign == "X" ? player("Legend", "O") : player("Goofy", "X")
+    const currentPlayers = console.log(`Player1: ${player1.getName()} - ${player1.getSign()} \nPlayer2: ${player2.getName()} - ${player2.getSign()}`) 
 
-    return console.log(`Player1: ${player1.getName()} - ${player1.getSign()} \nPlayer2: ${player2.getName()} - ${player2.getSign()}`)
+    return {player1, currentPlayers}
 
 }
 
-const startRound = (player1, player2, board) => {
-    gameCompleted = false
-    if (gameCompleted == false){
-        console.log(`${player1.getName()} your turn`)
+const startRound = (player1) => {
+    let gameCompleted = false
+    while (gameCompleted == false){
+        console.log(`${player1.getName()} Your turn`)
         let input = prompt(`${player1.getName()} Your Turn`)
+        let signInfo = input.split(",")
+        gameBoard.addSign(signInfo[0], signInfo[1], signInfo[2])
+        if (gameController.winCondition(gameBoard) != true){
+            console.log("Not Won")
+        }else{
+            console.log("Won")
+            gameCompleted = true
+        }
+        console.log(gameBoard.board)
     }
 }
 
-startGame()
+startGame().currentPlayers
 console.log(gameBoard.board)
+startRound(startGame().player1)
 
 
 
